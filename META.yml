@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Net-Subnet
-version:            1.00
+version:            1.01
 abstract:           Fast IP-in-subnet matcher for IPv4 and IPv6, CIDR or mask.
 author:
     - Juerd Waalboer <#####@juerd.nl>

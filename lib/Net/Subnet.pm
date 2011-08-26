@@ -7,7 +7,7 @@ use Socket6;
 use base 'Exporter';
 our @EXPORT = qw(subnet_matcher subnet_classifier sort_subnets);
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 sub cidr2mask_v4 {
     my ($length) = @_;
@@ -139,7 +139,7 @@ Net::Subnet - Fast IP-in-subnet matcher for IPv4 and IPv6, CIDR or mask.
     $x = $classifier->("10.2.127.1");           # $x is "10.0.0.0/255.0.0.0"
     $x = $classifier->("8.8.8.8");              # $x is undef
 
-    # More significant subnets (smaller subnets) must be listed first
+    # More specific subnets (smaller subnets) must be listed first
     my @subnets = sort_subnets(
         "192.168.0.0/24",  # second
         "192.168.0.1/32",  # first
@@ -163,21 +163,21 @@ used with Net::Subnet.
 
 =head1 FUNCTIONS
 
-=head1 subnet_matcher(@subnets)
+=head2 subnet_matcher(@subnets)
 
 Returns a reference to a function that returns true if the given IP address is
 in @subnets, false it it's not.
 
-=head1 subnet_classifier(@subnets)
+=head2 subnet_classifier(@subnets)
 
 Returns a reference to a function that returns the element from @subnets that
 matches the given IP address, or undef if none matched.
 
-=head1 sort_subnets(@subnets)
+=head2 sort_subnets(@subnets)
 
 Returns @subnets in reverse order of prefix length and prefix; use this with
 subnet_matcher or subnet_classifier if your subnet list has overlapping ranges
-and it's not already sorted most-significant-first.
+and it's not already sorted most-specific-first.
 
 =head1 CAVEATS
 
