@@ -1,4 +1,4 @@
-use Test::More tests => 33;
+use Test::More;
 use Net::Subnet;
 
 my @subnets = qw(
@@ -6,6 +6,7 @@ my @subnets = qw(
     2001:db8:10:5::/64
     ::1/128
     192.168.0.0/22
+    2001:db8:8000::/34
 );
 
 my %matches = qw(
@@ -13,6 +14,7 @@ my %matches = qw(
     2001:db8:10::                           2001:db8:10::/48
     2001:db8:10:ffff:ffff:ffff:ffff:ffff    2001:db8:10::/48
     2001:db8:10:5::1                        2001:db8:10:5::/64
+    2001:db8:8000::1                        2001:db8:8000::/34
     ::1                                     ::1/128
     192.168.0.5                             192.168.0.0/22
     192.168.1.5                             192.168.0.0/22
@@ -28,6 +30,8 @@ my @nonmatches = qw(
     255.255.255.255
     192.168.4.5
     2001:db8:11::1
+    2001:db8:8::
+    2001:db8:8::2
 );
 
 
@@ -55,3 +59,4 @@ for (@nonmatches) {
     ok(!defined($classifier->($_)), "Classifier returns undef for $_");
 }
 
+done_testing;

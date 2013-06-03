@@ -2,12 +2,20 @@ package Net::Subnet;
 
 use strict;
 use Socket;
-use Socket6;
+BEGIN {
+    if (defined &Socket::inet_pton) {
+        Socket->import(qw(inet_pton AF_INET6));
+    } else {
+        require Socket6;
+        Socket6->import(qw(inet_pton AF_INET6));
+    }
+};
+
 
 use base 'Exporter';
 our @EXPORT = qw(subnet_matcher subnet_classifier sort_subnets);
 
-our $VERSION = '1.02';
+our $VERSION = '1.03';
 
 sub cidr2mask_v4 {
     my ($length) = @_;
@@ -16,9 +24,7 @@ sub cidr2mask_v4 {
 
 sub cidr2mask_v6 {
     my ($length) = @_;
-    my $mask = "\x00" x 16;
-    vec($mask, $_, 1) = 1 for 0 .. ($length - 1);
-    return $mask;
+    return pack('B128', '1' x $length);
 }
 
 sub subnet_matcher {
