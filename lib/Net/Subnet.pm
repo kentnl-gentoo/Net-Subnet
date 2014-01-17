@@ -217,7 +217,7 @@ addresses:
     my $classifier = subnet_classifier sort_subnets keys %ptr;
 
     while (my $ip = readline) {
-        # We get IP adresses from STDIN and return the hostnames on STDOUT
+        # We get IP addresses from STDIN and return the hostnames on STDOUT
 
         print $ptr{ $classifier->($ip) }->($ip), "\n";
     }
